@@ -1,0 +1,228 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0f1117;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 700px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.subtitle {
+  color: #8b949e;
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+}
+
+/* ── Form Box ─────────────────────────── */
+.form-box {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Sample Buttons ───────────────────── */
+.sample-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sample-label {
+  color: #8b949e;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.sample-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  width: auto;
+  transition: opacity 0.2s;
+}
+
+.sample-btn:hover {
+  opacity: 0.85;
+}
+
+.sample-btn.safe {
+  background-color: #0d2818;
+  border-color: #238636;
+  color: #3fb950;
+}
+
+.sample-btn.fraud {
+  background-color: #2d1b1b;
+  border-color: #f85149;
+  color: #f85149;
+}
+
+/* ── Textarea ─────────────────────────── */
+textarea {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: #c9d1d9;
+  font-size: 0.9rem;
+  padding: 12px;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+textarea:focus {
+  border-color: #58a6ff;
+}
+
+/* ── Main Button ──────────────────────── */
+button {
+  background-color: #238636;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #2ea043;
+}
+
+button:disabled {
+  background-color: #2d333b;
+  cursor: not-allowed;
+}
+
+/* ── Error Box ────────────────────────── */
+.error-box {
+  margin-top: 24px;
+  background-color: #2d1b1b;
+  border: 1px solid #f85149;
+  border-radius: 12px;
+  padding: 20px;
+  color: #f85149;
+  font-size: 0.95rem;
+}
+
+/* ── Result Box ───────────────────────── */
+.result-box {
+  margin-top: 24px;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.result-box h2 {
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+
+.result-box.low {
+  background-color: #0d2818;
+  border: 1px solid #238636;
+}
+
+.result-box.high {
+  background-color: #2d1b1b;
+  border: 1px solid #f85149;
+}
+
+/* ── Result Grid ──────────────────────── */
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.result-label {
+  font-size: 0.8rem;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ── History Box ──────────────────────── */
+.history-box {
+  margin-top: 24px;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.history-box h3 {
+  font-size: 1rem;
+  color: #8b949e;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.history-item.low {
+  background-color: #0d2818;
+  border: 1px solid #238636;
+}
+
+.history-item.high {
+  background-color: #2d1b1b;
+  border: 1px solid #f85149;
+}
+
+.history-time {
+  color: #8b949e;
+  font-size: 0.8rem;
+}
