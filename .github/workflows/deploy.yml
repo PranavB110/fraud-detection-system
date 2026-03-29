@@ -1,0 +1,27 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/fraud-detection-system
+            git pull
+            sudo docker build --no-cache -t fraud-api ~/fraud-detection-system/backend/
+            sudo docker rm -f fraud-container
+            sudo docker run -d -p 8000:8000 --name fraud-container --restart always fraud-api
+            sudo docker build -t frontend-app ~/fraud-detection-system/frontend/
+            sudo docker rm -f frontend-container
+            sudo docker run -d -p 80:80 --name frontend-container --restart always frontend-app
