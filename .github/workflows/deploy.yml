@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: CI/CD — Test and Deploy
 
 on:
   push:
@@ -6,8 +6,31 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+          pip install pytest httpx
+
+      - name: Run tests
+        run: |
+          cd backend
+          pytest test_main.py -v
+
   deploy:
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: SSH into EC2 and deploy
@@ -25,3 +48,5 @@ jobs:
             sudo docker build -t frontend-app ~/fraud-detection-system/frontend/
             sudo docker rm -f frontend-container
             sudo docker run -d -p 80:80 --name frontend-container --restart always frontend-app
+            sleep 5
+            curl -f http://localhost:8000/health || exit 1
