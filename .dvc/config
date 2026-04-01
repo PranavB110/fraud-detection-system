@@ -1,0 +1,5 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = s3://fraud-detection-dvc-pranav/models
+    region = ap-south-1
