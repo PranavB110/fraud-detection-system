@@ -21,7 +21,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r backend/requirements.txt
-          pip install pytest httpx
+          pip install pytest httpx dvc dvc-s3
+
+      - name: Pull model files from S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          python -m dvc pull
 
       - name: Run tests
         run: |
@@ -42,6 +49,9 @@ jobs:
           script: |
             cd ~/fraud-detection-system
             git pull
+            export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            python3 -m dvc pull
             sudo docker build --no-cache -t fraud-api ~/fraud-detection-system/backend/
             sudo docker rm -f fraud-container
             sudo docker run -d -p 8000:8000 --name fraud-container --restart always fraud-api
