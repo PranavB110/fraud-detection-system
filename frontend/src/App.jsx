@@ -46,71 +46,230 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <h1>🔍 Fraud Detection System</h1>
-      <p className="subtitle">AI-powered financial transaction risk analysis</p>
+    <div className="page">
 
-      <div className="form-box">
-        <div className="sample-buttons">
-          <span className="sample-label">Quick Load:</span>
-          <button className="sample-btn safe" onClick={() => setInput(SAMPLE_LEGITIMATE)}>
-            ✅ Legitimate Transaction
-          </button>
-          <button className="sample-btn fraud" onClick={() => setInput(SAMPLE_FRAUD)}>
-            🚨 Fraudulent Transaction
-          </button>
-        </div>
-
-        <textarea
-          rows={4}
-          placeholder="Paste 30 comma-separated transaction features here..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button onClick={handleSubmit} disabled={loading}>
-          {loading ? 'Analyzing...' : 'Analyze Transaction'}
-        </button>
-      </div>
-
-      {error && (
-        <div className="error-box">
-          ⚠️ {error}
-        </div>
-      )}
-
-      {result && (
-        <div className={`result-box ${result.fraud_detected ? 'high' : 'low'}`}>
-          <h2>{result.fraud_detected ? '🚨 Fraud Detected' : '✅ Transaction Safe'}</h2>
-          <div className="result-grid">
-            <div className="result-item">
-              <span className="result-label">Risk Score</span>
-              <span className="result-value">{result.risk_score} / 100</span>
+      {/* ── NAVBAR ── */}
+      <nav className="navbar">
+        <div className="navbar-inner">
+          <div className="brand">
+            <div className="brand-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" fill="#6ea8fe"/>
+              </svg>
             </div>
-            <div className="result-item">
-              <span className="result-label">Risk Level</span>
-              <span className="result-value">{result.risk_level}</span>
+            <span className="brand-name">FraudGuard AI</span>
+          </div>
+          <div className="nav-links">
+            <a href="#analyzer" className="nav-link">Analyzer</a>
+            <a href="#how-it-works" className="nav-link">How it works</a>
+            <a href="http://13.232.115.1:8000/docs" target="_blank" rel="noreferrer" className="nav-link">API Docs</a>
+            <a href="https://github.com/PranavB110/fraud-detection-system" target="_blank" rel="noreferrer" className="nav-btn">GitHub</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* ── HERO ── */}
+      <section className="hero">
+        <div className="hero-inner">
+          <div className="hero-badge">
+            <span className="badge-dot" />
+            Live on AWS EC2 · Model Accuracy 96%
+          </div>
+          <h1 className="hero-title">
+            Detect Financial Fraud<br />
+            <span className="hero-accent">in Milliseconds</span>
+          </h1>
+          <p className="hero-sub">
+            AI-powered transaction risk analysis using Random Forest trained on 284,807 real transactions.
+            Get instant LOW / MEDIUM / HIGH risk classification.
+          </p>
+          <div className="hero-stats">
+            <div className="hero-stat">
+              <span className="hero-stat-value">96%</span>
+              <span className="hero-stat-label">Precision</span>
             </div>
-            <div className="result-item">
-              <span className="result-label">Classification</span>
-              <span className="result-value">{result.prediction === 1 ? 'Fraudulent' : 'Legitimate'}</span>
+            <div className="hero-stat-divider" />
+            <div className="hero-stat">
+              <span className="hero-stat-value">0.84</span>
+              <span className="hero-stat-label">F1 Score</span>
+            </div>
+            <div className="hero-stat-divider" />
+            <div className="hero-stat">
+              <span className="hero-stat-value">284K</span>
+              <span className="hero-stat-label">Transactions Trained</span>
+            </div>
+            <div className="hero-stat-divider" />
+            <div className="hero-stat">
+              <span className="hero-stat-value">&lt;100ms</span>
+              <span className="hero-stat-label">Response Time</span>
             </div>
           </div>
         </div>
-      )}
+      </section>
 
-      {history.length > 0 && (
-        <div className="history-box">
-          <h3>Recent Predictions</h3>
-          {history.map((item, i) => (
-            <div key={i} className={`history-item ${item.fraud_detected ? 'high' : 'low'}`}>
-              <span>{item.fraud_detected ? '🚨 Fraud' : '✅ Safe'}</span>
-              <span>Score: {item.risk_score}</span>
-              <span>{item.risk_level}</span>
-              <span className="history-time">{item.time}</span>
+      {/* ── HOW IT WORKS ── */}
+      <section className="how-section" id="how-it-works">
+        <div className="section-inner">
+          <p className="section-label">How it works</p>
+          <div className="steps">
+            <div className="step">
+              <div className="step-num">01</div>
+              <div className="step-text">
+                <div className="step-title">Paste Features</div>
+                <div className="step-desc">Input 30 comma-separated transaction values (V1–V28 + Time + Amount)</div>
+              </div>
             </div>
-          ))}
+            <div className="step-arrow">→</div>
+            <div className="step">
+              <div className="step-num">02</div>
+              <div className="step-text">
+                <div className="step-title">ML Analysis</div>
+                <div className="step-desc">Random Forest model scores the transaction in real time via FastAPI</div>
+              </div>
+            </div>
+            <div className="step-arrow">→</div>
+            <div className="step">
+              <div className="step-num">03</div>
+              <div className="step-text">
+                <div className="step-title">Risk Result</div>
+                <div className="step-desc">Instant verdict — risk score, level, and fraud classification</div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
+      </section>
+
+      {/* ── ANALYZER ── */}
+      <section className="analyzer-section" id="analyzer">
+        <div className="section-inner">
+          <p className="section-label">Transaction Analyzer</p>
+          <div className="analyzer-grid">
+
+            {/* Input panel */}
+            <div className="panel">
+              <div className="panel-header">
+                <span className="panel-title">Input Transaction</span>
+                <div className="sample-buttons">
+                  <button className="sample-btn safe" onClick={() => { setInput(SAMPLE_LEGITIMATE); setResult(null); setError(null); }}>
+                    Load Legitimate
+                  </button>
+                  <button className="sample-btn fraud" onClick={() => { setInput(SAMPLE_FRAUD); setResult(null); setError(null); }}>
+                    Load Fraud
+                  </button>
+                </div>
+              </div>
+              <div className="panel-body">
+                <p className="input-hint">Paste 30 comma-separated values — V1 through V28, then Time, then Amount</p>
+                <textarea
+                  rows={6}
+                  placeholder="e.g. -1.359, -0.072, 2.536, ... , 149.62"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+                {error && (
+                  <div className="error-box">
+                    ⚠ {error}
+                  </div>
+                )}
+                <button className="analyze-btn" onClick={handleSubmit} disabled={loading}>
+                  {loading
+                    ? <><span className="spinner" /> Analyzing...</>
+                    : '→ Analyze Transaction'
+                  }
+                </button>
+              </div>
+            </div>
+
+            {/* Result panel */}
+            <div className="panel">
+              <div className="panel-header">
+                <span className="panel-title">Risk Analysis</span>
+              </div>
+              <div className="panel-body">
+                {!result ? (
+                  <div className="empty-state">
+                    <div className="empty-icon">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" stroke="#2a3a5a" strokeWidth="1.5" fill="none"/>
+                      </svg>
+                    </div>
+                    <p>Submit a transaction to see the analysis</p>
+                  </div>
+                ) : (
+                  <div className="result-content">
+                    <div className={`verdict-banner ${result.fraud_detected ? 'high' : 'low'}`}>
+                      <span className="verdict-icon">{result.fraud_detected ? '⚠' : '✓'}</span>
+                      <span className="verdict-text">{result.fraud_detected ? 'Fraud Detected' : 'Transaction Legitimate'}</span>
+                    </div>
+
+                    <div className="score-section">
+                      <div className="score-label">Risk Score</div>
+                      <div className="score-value">{result.risk_score}<span className="score-max">/100</span></div>
+                      <div className="score-bar-track">
+                        <div
+                          className="score-bar-fill"
+                          style={{
+                            width: `${result.risk_score}%`,
+                            backgroundColor: result.risk_score >= 70 ? '#e53e3e' : result.risk_score >= 40 ? '#d97706' : '#2563eb'
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="result-grid">
+                      <div className="result-item">
+                        <span className="result-label">Risk Level</span>
+                        <span className={`result-value risk-${result.risk_level?.toLowerCase()}`}>{result.risk_level}</span>
+                      </div>
+                      <div className="result-item">
+                        <span className="result-label">Classification</span>
+                        <span className="result-value">{result.prediction === 1 ? 'Fraudulent' : 'Legitimate'}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+
+          {/* History */}
+          {history.length > 0 && (
+            <div className="history-box">
+              <div className="panel-header">
+                <span className="panel-title">Recent Analyses</span>
+                <span className="history-count">{history.length} total this session</span>
+              </div>
+              <div className="history-list">
+                {history.map((item, i) => (
+                  <div key={i} className={`history-item ${item.fraud_detected ? 'high' : 'low'}`}>
+                    <span className="history-verdict">{item.fraud_detected ? 'Fraud' : 'Legitimate'}</span>
+                    <span className="history-score">Score: {item.risk_score}</span>
+                    <span className={`history-level risk-${item.risk_level?.toLowerCase()}`}>{item.risk_level}</span>
+                    <span className="history-time">{item.time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer className="footer">
+        <div className="footer-inner">
+          <div className="brand">
+            <div className="brand-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z" fill="#6ea8fe"/>
+              </svg>
+            </div>
+            <span className="brand-name" style={{ fontSize: '0.85rem' }}>FraudGuard AI</span>
+          </div>
+          <p className="footer-text">Built with FastAPI · React · Docker · AWS EC2 · GitHub Actions</p>
+        </div>
+      </footer>
+
     </div>
   )
 }
